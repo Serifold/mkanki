@@ -36,7 +36,10 @@ class Model {
     this.props.flds.forEach(f => { this.fieldNameToOrd[f.name] = f.ord })
   }
 
-  note(fields, guid = null) {
+  note(fields, tags = null, guid = null) {
+    if (tags) {
+      this.props.tags = tags
+    }
     if (Array.isArray(fields)) {
       if (fields.length !== this.props.flds.length) {
         throw new Error(`Expected ${this.props.flds.length} fields for model '${this.props.name}' but got ${fields.length}`)
@@ -145,10 +148,11 @@ class Deck {
 
 
 class Note {
-  constructor(model, fields, guid = null) {
+  constructor(model, fields, tags, guid = null) {
     this.model = model
     this.fields = fields
     this._guid = guid
+    this.tags = tags
   }
 
   get guid() {
@@ -373,7 +377,7 @@ class Package {
           mid: note.model.props.id,
           mod: (+now/1000)|0,
           usn: -1,
-          tags: '',
+          tags: note.model.props.tags.join(' '),
           flds: note.fields.join('\x1f'),
           sfld: 0,
         })
@@ -384,7 +388,7 @@ class Package {
             ord: card_ord,
             mod: (+now/1000)|0,
             usn: -1,
-            type: 0, // 0=new, 1=learning, 2=due 
+            type: 0, // 0=new, 1=learning, 2=due
             queue: 0, // -1 for suspended
           })
         }

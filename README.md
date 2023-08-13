@@ -1,3 +1,5 @@
+> This repository is a fork of [@kizaski/mkanki](https://github.com/kizaski/mkanki).
+
 # mkanki
 
 An API for generating [Anki](https://apps.ankiweb.net/) decks.
@@ -41,7 +43,7 @@ const m = new anki.Model({
 
 const d = new anki.Deck(1542998993960, "hi")
 
-d.addNote(m.note(['this is front', 'this is back']))
+d.addNote(m.note(['this is front', 'this is back'], ['tag1', 'tag2']))
 
 const p = new anki.Package()
 p.addDeck(d)
